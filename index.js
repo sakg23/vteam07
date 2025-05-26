@@ -43,20 +43,10 @@ app.post('/cities', async (req, res) => {
 });
 
 
-// app.get('/cities/new', (req, res) => {
-//     res.render('city_new');
-// });
+app.get('/cities/new', (req, res) => {
+    res.render('database/city_new');
+});
 
-// // Lägg till ny stad
-// app.post('/cities', async (req, res) => {
-//     try {
-//         const { name, region } = req.body;
-//         await city.addCity(name, region);
-//         res.redirect('/cities');
-//     } catch (err) {
-//         res.status(500).send('Kunde inte lägga till stad');
-//     }
-// });
 
 
 app.listen(PORT, () => {
