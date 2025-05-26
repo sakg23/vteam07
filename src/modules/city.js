@@ -1,5 +1,5 @@
 // src/city.js
-const connectToDatabase = require('./db/connection');
+const connectToDatabase = require('./../db/connection');
 
 // Lägg till ny stad via lagrad procedur
 async function addCity(name, region) {

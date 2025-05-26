@@ -6,7 +6,7 @@
     <h1>Alla städer</h1>
 
     <!-- Dropdown för att välja stad -->
-    <form method="GET" action="/cities" style="margin-bottom: 1em;">
+    <form method="GET" action="/v1/cities" style="margin-bottom: 1em;">
       <label for="citySelect"><strong>Välj stad:</strong></label>
       <select id="citySelect" name="cityId" required>
         <% if (cities && cities.length > 0) { %>
@@ -32,6 +32,6 @@
       </div>
     <% } %>
 
-<a href="/cities/new" class="add-btn">Lägg till stad</a>
+<!-- <a href="/cities/new" class="add-btn">Lägg till stad</a> -->
   </main>
 <%- include("../partials/footer.ejs") %>
