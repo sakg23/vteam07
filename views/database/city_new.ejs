@@ -1,0 +1,18 @@
+<%- include("../partials/header.ejs") %>
+<title>Lägg till stad - Svenska Elsparkcyklar</title>
+</head>
+<body>
+  <main>
+    <h1>Lägg till ny stad</h1>
+    <form action="/cities" method="POST">
+      <label for="name">Stadsnamn:</label>
+      <input type="text" name="name" id="name" required><br>
+
+      <label for="region">Region:</label>
+      <input type="text" name="region" id="region" required><br>
+
+      <button type="submit">Lägg till</button>
+    </form>
+    <a href="/cities">Tillbaka till städer</a>
+  </main>
+<%- include("../partials/footer.ejs") %>

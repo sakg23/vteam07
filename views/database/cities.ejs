@@ -1,0 +1,37 @@
+<%- include("../partials/header.ejs") %>
+<title>Alla städer - Svenska Elsparkcyklar</title>
+</head>
+<body>
+  <main>
+    <h1>Alla städer</h1>
+
+    <!-- Dropdown för att välja stad -->
+    <form method="GET" action="/cities" style="margin-bottom: 1em;">
+      <label for="citySelect"><strong>Välj stad:</strong></label>
+      <select id="citySelect" name="cityId" required>
+        <% if (cities && cities.length > 0) { %>
+          <% cities.forEach(function(city) { %>
+            <option value="<%= city.id %>"
+              <% if (typeof selectedCity !== 'undefined' && selectedCity && selectedCity.id === city.id) { %>selected<% } %>>
+              <%= city.name %> (<%= city.region %>)
+            </option>
+          <% }) %>
+        <% } else { %>
+          <option disabled selected>Inga städer tillgängliga</option>
+        <% } %>
+      </select>
+      <button type="submit">Visa</button>
+    </form>
+
+    <!-- Visa vald stad, om någon är vald -->
+    <% if (selectedCity) { %>
+      <div class="card" style="margin-bottom: 1em; border: 1px solid #ccc; padding: 1em;">
+        <h2>Vald stad:</h2>
+        <p><strong>Namn:</strong> <%= selectedCity.name %></p>
+        <p><strong>Region:</strong> <%= selectedCity.region %></p>
+      </div>
+    <% } %>
+
+<a href="/cities/new" class="add-btn">Lägg till stad</a>
+  </main>
+<%- include("../partials/footer.ejs") %>

@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+header, footer {
+    background: #a59f9f;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+nav a {
+    text-decoration: none;
+    color: #0a6ba7;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+nav a:hover {
+        color: #176bc4;
+}
+    
+h1 {
+    color: #6e7275;
+}
+ul {
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 20px auto;
+}
