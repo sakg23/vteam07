@@ -7,12 +7,12 @@ const http = require("http"); // För att skapa en HTTP-server
 const morgan = require("morgan"); // Middleware for logging HTTP requests
 const rateLimit = require("express-rate-limit"); // Middleware to limit repeated requests
 const citiesRoutes = require("./routes/cities.js"); // Cities routes file
-// const parkingsRoutes = require("./routes/parkings.js"); // Parkings routes file
-// const userRoutes = require("./routes/user.js"); // User routes file
-// const chargingStationsRoutes = require("./routes/chargingstations.js"); // chargingstations routes file
-// const travelsRoutes = require("./routes/travels.js"); // Travels routes file
-// const bikesRoutes = require("./routes/scooter.js"); // bikes routes file
-// const paymentsRoutes = require("./routes/payment.js"); // payment routes file
+const parkingsRoutes = require("./routes/parkings.js"); // Parkings routes file
+const userRoutes = require("./routes/user.js"); // User routes file
+const chargingStationsRoutes = require("./routes/chargingstations.js"); // chargingstations routes file
+const travelsRoutes = require("./routes/travels.js"); // Travels routes file
+const bikesRoutes = require("./routes/scooter.js"); // bikes routes file
+const paymentsRoutes = require("./routes/payment.js"); // payment routes file
 const port = process.env.PORT || 3000; // Default port or one specified in the environment
 // Set your view engine (for example, EJS)
 app.set('view engine', 'ejs');
@@ -81,12 +81,12 @@ app.use(limiter); // Apply rate limiting globally
 
 // Mount versioned routes for cities, parking, and user-related endpoints
 app.use("/v1/cities", citiesRoutes); // All city-related routes start with /v1/cities
-// app.use("/v1/parking", parkingsRoutes); // All parking-related routes start with /v1/parking
-// app.use("/v1/user", userRoutes); // All user-related routes start with /v1/user
-// app.use("/v1/travels", travelsRoutes); // All travels-related routes start with /v1/travels
-// app.use("/v1/chargingstations", chargingStationsRoutes); // All chargingstations-related routes start with /v1/chargingstations
-// app.use("/v1/bikes", bikesRoutes); // All bikes-related routes start with /v1/bikes
-// app.use("/v1/payment", paymentsRoutes); // All payment-related routes start with /v1/payment
+app.use("/v1/parking", parkingsRoutes); // All parking-related routes start with /v1/parking
+app.use("/v1/user", userRoutes); // All user-related routes start with /v1/user
+app.use("/v1/travels", travelsRoutes); // All travels-related routes start with /v1/travels
+app.use("/v1/chargingstations", chargingStationsRoutes); // All chargingstations-related routes start with /v1/chargingstations
+app.use("/v1/bikes", bikesRoutes); // All bikes-related routes start with /v1/bikes
+app.use("/v1/payment", paymentsRoutes); // All payment-related routes start with /v1/payment
 
 // Middleware to handle routes that are not defined (404 errors)
 app.use((req, res, next) => {
