@@ -1,11 +1,16 @@
-// src/city.js
-const connectToDatabase = require('./../db/connection');
+const connectToDatabase = require("../db/connection");
 
-// Lägg till ny stad via lagrad procedur
+// Lägg till ny stad
 async function addCity(name, region) {
     const db = await connectToDatabase();
-    await db.query('CALL insert_city(?, ?)', [name, region]);
-    await db.end();
+    try {
+        const [result] = await db.query('CALL insert_city(?, ?)', [name, region]);
+        return result;
+    } catch (error) {
+        return { error: error.message };
+    } finally {
+        await db.end();
+    }
 }
 
 // Hämta alla städer
@@ -16,4 +21,24 @@ async function getCities() {
     return rows;
 }
 
-module.exports = { getCities, addCity };
+// Hämta stad via namn
+async function getCityByName(name) {
+    const db = await connectToDatabase();
+    const [rows] = await db.query('SELECT * FROM cities WHERE name = ?', [name]);
+    await db.end();
+    return rows;
+}
+
+// Radera stad via namn
+async function deleteCity(name) {
+    const db = await connectToDatabase();
+    await db.query('DELETE FROM cities WHERE name = ?', [name]);
+    await db.end();
+}
+
+module.exports = {
+    addCity,
+    getCities,
+    getCityByName,
+    deleteCity
+};

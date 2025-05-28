@@ -1,39 +1,69 @@
 const express = require("express");
 const router = express.Router();
-const citiesModules = require('../src/modules/city');
-// const checkAuth = require("../middleware/check-auth.js"); // Middleware för att verifiera om användaren är inloggad
-// const citiesModules = require("../src/cities/modules.js"); // Import av moduler som hanterar cities i databasen
-// const checkAdmin = require("../middleware/check-admin.js"); // Middleware för att kontrollera administratörsbehörighet
+const cityModules = require("../src/modules/city");
 
+// Hämta alla städer
 router.get("/", async (req, res) => {
-//   try {
-//     // Hämtar alla städer från databasen via modulen
-//     const cities = await citiesModules.getCities();
-//     // Returnerar resultatet som JSON med statuskod 200
-//     res.status(200).json({
-//       status: "success",
-//       cities: cities,
-//     });
-//   } catch (error) {
-//     // Vid fel skickas statuskod 500 och ett felmeddelande
-//     res.status(500).json({
-//       message: "Server error",
-//       error: error.message,
-//     });
-//   }
     try {
-        const cities = await citiesModules.getCities();
-        let selectedCity = null;
-        const cityId = req.query.cityId;
+        const cities = await cityModules.getCities();
+        res.status(200).json({
+            status: "success",
+            cities: cities,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error",
+            error: error.message,
+        });
+    }
+});
 
-        // Om någon stad är vald via querystring (?cityId=2)
-        if (cityId) {
-            selectedCity = cities.find(c => c.id == cityId);
+// Lägg till ny stad
+router.post("/add", async (req, res) => {
+    try {
+        const { name, region } = req.body;
+
+        const existing = await cityModules.getCityByName(name);
+        if (existing.length > 0) {
+            return res.status(409).json({ message: "City already exists" });
         }
 
-        res.render('database/cities', { cities, selectedCity });
-    } catch (err) {
-        res.render('database/cities', { cities: [], selectedCity: null });
+        const result = await cityModules.addCity(name, region);
+
+        if (result.error) {
+            return res.status(500).json({ message: "Server error", error: result.error });
+        }
+
+        res.status(200).json({
+            status: "success",
+            message: "City added",
+            city_id: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error",
+            error: error.message,
+        });
+    }
+});
+
+// Radera stad via namn
+router.delete("/:name", async (req, res) => {
+    const name = req.params.name;
+
+    try {
+        const existing = await cityModules.getCityByName(name);
+        if (!existing || existing.length === 0) {
+            return res.status(404).json({ message: "City not found" });
+        }
+
+        await cityModules.deleteCity(name);
+        res.status(200).json({ message: "City deleted successfully" });
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error",
+            error: error.message,
+        });
     }
 });
 

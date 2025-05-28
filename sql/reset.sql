@@ -1,5 +1,5 @@
 -- reset.sql
 SOURCE setup.sql;
 USE elsparkcyklar;
-SOURCE ddl.sql;
+SOURCE tables.sql;
 SOURCE insert.sql;
