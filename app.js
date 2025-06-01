@@ -13,7 +13,7 @@ const chargingStationsRoutes = require("./routes/chargingstations.js"); // charg
 const travelsRoutes = require("./routes/travels.js"); // Travels routes file
 const bikesRoutes = require("./routes/scooter.js"); // bikes routes file
 const paymentsRoutes = require("./routes/payment.js"); // payment routes file
-const port = process.env.PORT || 3000; // Default port or one specified in the environment
+const port = process.env.PORT || 5000; // Default port or one specified in the environment
 // Set your view engine (for example, EJS)
 app.set('view engine', 'ejs');
 
