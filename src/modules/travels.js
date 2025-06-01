@@ -32,6 +32,13 @@ async function getTravelById(id) {
     return rows;
 }
 
+async function getRidesById(id) {
+    const db = await connectToDatabase();
+    const [rows] = await db.query('SELECT * FROM rides WHERE user_id = ?', [id]);
+    await db.end();
+    return rows;
+}
+
 // Ta bort resa
 async function deleteTravel(id) {
     const db = await connectToDatabase();
@@ -43,5 +50,6 @@ module.exports = {
     addTravel,
     getTravels,
     getTravelById,
-    deleteTravel
+    deleteTravel,
+    getRidesById
 };

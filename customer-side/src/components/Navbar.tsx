@@ -29,6 +29,19 @@ function Navbar() {
           </Link>
         )}
 
+        {/* History only when logged in */}
+        {isLoggedIn && (
+          <Link
+            className={
+              "customer-navbar-link" +
+              (location.pathname === "/history" ? " active" : "")
+            }
+            to="/history"
+          >
+            History
+          </Link>
+        )}
+
         {/* Register only when logged out */}
         {!isLoggedIn && (
           <Link

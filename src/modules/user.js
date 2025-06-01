@@ -25,7 +25,7 @@ async function getUsers() {
 }
 
 // Hämta användare via id
-async function getUserByid(id) {
+async function getUserById(id) {
     const db = await connectToDatabase();
     const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
     await db.end();
@@ -46,10 +46,34 @@ async function deleteUser(id) {
     await db.end();
 }
 
+// Funktion för att uppdatera användarens saldo
+async function updateBalance(userId, amount) {
+  let db = await connectToDatabase(); // Skapa anslutning till databasen
+  try {
+    let sql = `
+            UPDATE users
+            SET balance = balance + ?
+            WHERE id = ?;
+        `;
+
+    // Kör SQL-frågan med parametrar
+    await db.execute(sql, [amount, userId]);
+  } catch (error) {
+    console.error("Error updating balance:", error);
+    throw error; // Rethrow för att hantera felet högre upp i kedjan
+  } finally {
+    if (db) {
+      await db.end(); // Stäng anslutningen
+    }
+  }
+}
+
+
 module.exports = {
     addUser,
     getUsers,
-    getUserByid,
+    getUserById,
     deleteUser,
-    getUserByEmail
+    getUserByEmail,
+    updateBalance
 };

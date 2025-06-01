@@ -14,9 +14,10 @@ const Login = () => {
     try {
       const result = await authModules.login(values.email, values.password);
 
-      if (result === "ok") {
-        navigate("/Dashboard"); // Navigera till hemsidan efter lyckad inloggning
-      } else {
+    if (result === "ok") {
+      sessionStorage.setItem("userEmail", values.email); // Save the email
+      navigate("/Dashboard");
+    } else {
         setCheckLogin(true); // Visa felmeddelande om inloggningen misslyckas
       }
     } catch (error) {

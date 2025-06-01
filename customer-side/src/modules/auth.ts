@@ -29,7 +29,7 @@ interface UserCredentialsLogin {
 
 // Auth-modulen
 const auth = {
-  token: "",
+  token: sessionStorage.getItem("token") || "", // Load from storage if exists
 
   // Typa login-metoden
   async login(username: string, password: string): Promise<string> {
@@ -51,7 +51,8 @@ const auth = {
     if (result.message === 'Auth failed') {
       return result.message;
     } else if (result.message === 'Auth successful') {
-      this.token = result.token;
+    this.token = result.token;
+    sessionStorage.setItem("token", result.token); // Save in sessionStorage
       console.log(this.token);
       return "ok";
     } else {
@@ -92,7 +93,9 @@ const auth = {
 
   logout() {
     this.token = "";
+    sessionStorage.removeItem("token");
   }
+
 };
 
 export default auth;
