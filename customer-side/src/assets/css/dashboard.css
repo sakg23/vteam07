@@ -1,0 +1,67 @@
+.customer-dashboard-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 0.4rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #eaf0ec 100%);
+  min-height: 100vh;
+}
+
+/* Dashboard card styling */
+.customer-dashboard-card {
+  background: #fff;
+  padding: 2.5rem 2.3rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 3px 24px 0 rgba(56,67,90,0.09);
+  min-width: 330px;
+  max-width: 430px;
+  width: 100%;
+  margin-top: 3rem;
+}
+.customer-dashboard-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1a1b22;
+  font-size: 1.21rem;
+  font-weight: 700;
+  letter-spacing: 0.018em;
+}
+.customer-dashboard-info > div {
+  font-size: 1.07rem;
+  margin-bottom: 0.66rem;
+  display: flex;
+  gap: 0.7rem;
+  justify-content: space-between;
+}
+.info-label {
+  color: #787878;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .customer-dashboard-main {
+    padding: 1.2rem 0.1rem;
+  }
+
+  .customer-dashboard-card {
+    min-width: 96vw;
+    max-width: 99vw;
+    padding: 1.4rem 0.7rem;
+    border-radius: 0.8rem;
+    margin-top: 1.3rem;
+    box-shadow: 0 1px 10px 0 rgba(56,67,90,0.10);
+  }
+
+  .customer-dashboard-title {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .customer-dashboard-info > div {
+    font-size: 0.98rem;
+    flex-direction: column;
+    gap: 0.18rem;
+    align-items: flex-start;
+  }
+}

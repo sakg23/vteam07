@@ -1,0 +1,25 @@
+.site-footer {
+  width: 100%;
+  background: #fff;
+  color: #888;
+  box-shadow: 0 -1px 8px 0 rgba(56,67,90,0.04);
+  text-align: center;
+  padding: 1.1rem 0 1.2rem 0;
+  font-size: 1.03rem;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.footer-content {
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+  .site-footer {
+    font-size: 0.97rem;
+    padding: 0.75rem 0 0.85rem 0;
+  }
+}

@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const userModules = require("../src/modules/user");
+const checkAuth = require("../middleware/check-auth.js");
+
 
 // Hämta alla användare
 router.get("/", async (req, res) => {
@@ -118,6 +120,46 @@ router.delete("/:id", async (req, res) => {
             error: error.message,
         });
     }
+});
+
+router.get("/me/:email", checkAuth, async (req, res) => {
+  try {
+    // req.user kommer från decoded JWT-token (se din login!)
+    const user = await userModules.getUserByEmail(req.params.email);
+    if (!user || user.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Plocka ut bara det du vill skicka till frontend
+    const { id, email, name, phone, role, balance, created_at } = user[0];
+    res.status(200).json({ id, email, name, phone, role, balance, created_at });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+// Endpoint för att uppdatera användarens saldo
+router.put("/update/balance", checkAuth, async (req, res) => {
+  const userId = req.body.user_id;
+  const amount = req.body.amount;
+
+  try {
+    // Kontrollera om användaren existerar
+    // Först, kolla om användaren finns genom att hämta användaren med user_id
+    const existingUser = await userModules.getUserById(userId);
+
+    if (existingUser.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Uppdatera användarens saldo
+    await userModules.updateBalance(userId, amount);
+
+    res.status(200).json({ message: "Balance has been updated successfully" });
+  } catch (error) {
+    console.error("Error updating Balance:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 });
 
 module.exports = router;
