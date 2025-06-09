@@ -28,11 +28,11 @@ const Register = () => {
         await authModules.login(values.email, values.password);
         navigate("/Dashboard");
       } else {
-        setCheckRegister(true); // Visa ett felmeddelande
+        setCheckRegister(true);
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      setCheckRegister(true); // Hantera oväntade fel
+      setCheckRegister(true);
     }
   };
 

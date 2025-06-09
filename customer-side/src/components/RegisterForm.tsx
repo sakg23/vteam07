@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../assets/css/login.css"; // adjust path if needed
+import "../assets/css/index.css";
 
 interface Props {
   onSubmit: (values: { name: string; email: string; password: string; phone: string }) => void;
@@ -113,7 +113,7 @@ const RegisterForm = ({ onSubmit }: Props) => {
           </div>
           <button type="submit">Register</button>
         </form>
-        <Link to="/login" className="register-link">
+        <Link to="/" className="register-link">
           Already have an account? Login
         </Link>
       </div>

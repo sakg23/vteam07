@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 header, footer {
     background: #a59f9f;
     color: #fff;
@@ -17,6 +18,7 @@ nav {
     gap: 20px;
     justify-content: center;
 }
+
 nav a {
     text-decoration: none;
     color: #0a6ba7;
@@ -24,13 +26,15 @@ nav a {
     font-weight: 500;
     transition: color 0.2s;
 }
+
 nav a:hover {
-        color: #176bc4;
+    color: #176bc4;
 }
     
 h1 {
     color: #6e7275;
 }
+
 ul {
     background: #fff;
     padding: 10px 20px;
