@@ -1,0 +1,9 @@
+<h1>Login Page</h1>
+
+<% if (query && query.message === 'logged_out') { %>
+    <div style="color: green;">✅ You have been logged out successfully.</div>
+<% } %>
+
+<a href="/auth/google">
+    <button>🔐 Login with Google</button>
+</a>

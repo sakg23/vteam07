@@ -1,0 +1,12 @@
+<h1>Available Scooters</h1>
+
+<ul>
+    <% scooters.forEach(scooter => { %>
+        <li>
+            Scooter <%= scooter.id %> — Battery: <%= scooter.battery_level %>%
+            <form action="/rent/<%= scooter.id %>" method="POST" style="display:inline;">
+                <button type="submit">Rent</button>
+            </form>
+        </li>
+    <% }) %>
+</ul>

@@ -1,0 +1,117 @@
+<h1>Welcome, <%= user ? user.displayName : 'Guest' %></h1>
+
+<nav style="margin-bottom: 20px;">
+    <a href="/customer">🏠 Dashboard</a> |
+    <% if (!user) { %>
+        <a href="/auth/google">🔐 Login with Google</a>
+    <% } else { %>
+        <a href="/logout">🚪 Logout</a>
+        <% if (user.role === 'admin') { %>
+            | <a href="/admin/dashboard">🛡 Admin</a>
+        <% } %>
+    <% } %>
+</nav>
+
+<!-- Messages -->
+<% if (query && query.message === 'success') { %>
+    <div style="color: green;">✅ You successfully rented the scooter!</div>
+<% } %>
+<% if (query && query.message === 'payment_success') { %>
+    <div style="color: green;">✅ Your payment was successful!</div>
+<% } %>
+
+<!-- Address search form -->
+<div style="margin-bottom: 20px;">
+    <input type="text" id="addressInput" placeholder="Enter address..." style="width: 300px;">
+    <button onclick="searchAddress()">Find Location</button>
+</div>
+
+<!-- Map container -->
+<div id="map" style="height: 500px; width: 100%; margin-bottom: 20px;"></div>
+
+<!-- Action buttons -->
+<form action="/rent/2" method="POST" style="margin-bottom: 10px;">
+    <button type="submit">🚲 Rent Scooter 2</button>
+</form>
+
+<form action="/return/2" method="POST" style="margin-bottom: 10px;">
+    <button type="submit">🔙 Return Scooter 2</button>
+</form>
+
+<a href="/payment">
+    <button style="margin-bottom: 20px;">💳 Go to Payment</button>
+</a>
+
+<!-- Leaflet CSS + JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  const map = L.map('map').setView([57.7072, 11.9668], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  let searchMarker = null;
+
+  function searchAddress() {
+    const address = document.getElementById('addressInput').value;
+    if (!address) {
+      alert('Please enter an address!');
+      return;
+    }
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+      .then(response => response.json())
+      .then(results => {
+        if (results.length === 0) {
+          alert('Address not found!');
+          return;
+        }
+
+        const lat = parseFloat(results[0].lat);
+        const lng = parseFloat(results[0].lon);
+
+        if (searchMarker) {
+          map.removeLayer(searchMarker);
+        }
+
+        searchMarker = L.marker([lat, lng]).addTo(map)
+          .bindPopup(`Your chosen location: ${address}`)
+          .openPopup();
+
+        map.setView([lat, lng], 15);
+      })
+      .catch(error => {
+        console.error('Error fetching address:', error);
+        alert('Failed to search address.');
+      });
+  }
+
+  fetch('/api/scooters')
+    .then(response => response.json())
+    .then(scooters => {
+      const markerGroup = L.featureGroup();
+
+      scooters.forEach(scooter => {
+        const lat = parseFloat(scooter.lat);
+        const lng = parseFloat(scooter.lng);
+
+        L.marker([lat, lng])
+          .bindPopup('Scooter ' + scooter.id)
+          .addTo(markerGroup);
+      });
+
+      markerGroup.addTo(map);
+
+      if (scooters.length === 1) {
+        map.setView([parseFloat(scooters[0].lat), parseFloat(scooters[0].lng)], 15);
+      } else {
+        map.fitBounds(markerGroup.getBounds());
+      }
+    })
+    .catch(error => {
+      console.error('Error loading scooters:', error);
+    });
+</script>
