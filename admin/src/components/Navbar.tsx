@@ -1,80 +1,135 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import auth from "../modules/auth";
+import "../assets/css/navbar.css"; // <-- your separate admin CSS
 
 function Navbar() {
-  return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          Vteam07
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = !!auth.token;
 
-            {/* ADMIN */}
-            <li className="nav-item">
-              <Link className="nav-link" to="/cities">
-                Cities
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/customers">
-                Customers
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/parkingzones">
-                Parkings
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/chargingstations">
-                Charging Station
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/contact">
-                Contact
-              </Link>
-            </li>
-            {/* Exempel på extra */}
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/user-travels/1">
-                Mina resor
-              </Link>
-            </li> */}
-          </ul>
-        </div>
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/login");
+  };
+
+  return (
+    <nav className="admin-navbar">
+      <div className="admin-navbar-brand">Vteam07</div>
+      <div className="admin-navbar-links">
+
+        {/* Home always visible */}
+        <Link
+          className={
+            "admin-navbar-link" +
+            (location.pathname === "/" ? " active" : "")
+          }
+          to="/"
+        >
+          Home
+        </Link>
+
+        {/* Register always visible */}
+        <Link
+          className={
+            "admin-navbar-link" +
+            (location.pathname === "/register" ? " active" : "")
+          }
+          to="/register"
+        >
+          Register
+        </Link>
+
+        {/* Login only when not logged in AND not already on /login */}
+        {!isLoggedIn && location.pathname !== "/login" && (
+          <Link
+            className={
+              "admin-navbar-link" +
+              (location.pathname === "/login" ? " active" : "")
+            }
+            to="/login"
+          >
+            Login
+          </Link>
+        )}
+
+        {/* ADMIN links (only when logged in) */}
+        {isLoggedIn && (
+          <>
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/cities" ? " active" : "")
+              }
+              to="/cities"
+            >
+              Cities
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/customers" ? " active" : "")
+              }
+              to="/customers"
+            >
+              Customers
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/parkingzones" ? " active" : "")
+              }
+              to="/parkingzones"
+            >
+              Parkings
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/chargingstations" ? " active" : "")
+              }
+              to="/chargingstations"
+            >
+              Charging Station
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/about" ? " active" : "")
+              }
+              to="/about"
+            >
+              About
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
+                (location.pathname === "/contact" ? " active" : "")
+              }
+              to="/contact"
+            >
+              Contact
+            </Link>
+
+            {/* Logout */}
+            <button
+              className="admin-navbar-link logout-link"
+              onClick={handleLogout}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

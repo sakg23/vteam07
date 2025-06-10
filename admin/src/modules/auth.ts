@@ -1,7 +1,7 @@
 // Importera dina verktyg
 import { apiKey, baseURL } from "../utils";
 
-// Definiera typer fÃ¶r API-respons
+// Definiera typer för API-respons
 interface ApiResponse<T> {
   data?: T;
   message?: string;
@@ -27,17 +27,15 @@ interface UserCredentialsLogin {
   password: string;
 }
 
-
 // Auth-modulen
 const auth = {
-  token: "",
+  token: sessionStorage.getItem("token") || "", // Load from storage if exists
 
   // Typa login-metoden
   async login(username: string, password: string): Promise<string> {
     const user: UserCredentialsLogin = {
       email: username,
       password: password,
-      
     };
 
     const response = await fetch(`${baseURL}v1/user/login`, {
@@ -50,22 +48,26 @@ const auth = {
 
     const result: ApiResponse<AuthData> = await response.json();
 
-    if (result.message === 'Auth failed') {
+    if (result.message === "Auth failed") {
       return result.message;
-    } else if (result.message === 'Auth successful') {
-      
+    } else if (result.message === "Auth successful") {
       this.token = result.token;
+      sessionStorage.setItem("token", result.token); // Save in sessionStorage
       console.log(this.token);
       return "ok";
     } else {
       return "Unexpected error occurred.";
     }
-
-
   },
 
   // Typa register-metoden
-  async register(username: string, password: string, email: string, role: string, phone:string): Promise<string> {
+  async register(
+    username: string,
+    password: string,
+    email: string,
+    role: string,
+    phone: string
+  ): Promise<string> {
     const user: UserCredentials = {
       email: email,
       password_hash: password,
@@ -74,7 +76,7 @@ const auth = {
       phone: phone,
     };
 
-    console.log("userdata",user);
+    console.log("userdata", user);
     console.log("baseurl", baseURL);
     const response = await fetch(`${baseURL}v1/user/add`, {
       body: JSON.stringify(user),
@@ -85,15 +87,19 @@ const auth = {
     });
 
     const result: ApiResponse<AuthData> = await response.json();
-     console.log(result);
-    if (result.message === 'User already exists') {
+    console.log(result);
+    if (result.message === "User already exists") {
       return result.message;
-    } else if (result.message === 'User created') {
-      
+    } else if (result.message === "User created") {
       return "ok";
     } else {
       return "Unexpected error occurred.";
     }
+  },
+
+  logout() {
+    this.token = "";
+    sessionStorage.removeItem("token");
   },
 };
 
