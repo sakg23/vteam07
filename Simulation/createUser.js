@@ -39,4 +39,4 @@ async function createUsers(count) {
   }
 }
 
-createUsers(10); // Change the number of users to create
+createUsers(1000);

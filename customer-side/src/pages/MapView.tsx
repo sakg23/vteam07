@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import chargingImg from "../assets/icons/charging.png";
 import scooterImg from "../assets/icons/scooter.png";
 import scooterGreenImg from "../assets/icons/scooter-green.png";
@@ -67,11 +67,27 @@ interface Scooter {
   status: string;
 }
 
+const cityPositions: { [key: string]: [number, number] } = {
+  "Göteborg": [57.7089, 11.9746],
+  "Stockholm": [59.3293, 18.0686],
+  "Karlskrona": [56.1612, 15.5869],
+};
+
+// Helper component to move map
+const ChangeMapView = ({ center }: { center: [number, number] }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(center);
+  }, [center, map]);
+  return null;
+};
+
 const MapView = () => {
   const [mounted, setMounted] = useState(false);
   const [stations, setStations] = useState<Station[]>([]);
   const [zones, setZones] = useState<ParkingZone[]>([]);
   const [scooters, setScooters] = useState<Scooter[]>([]);
+  const [selectedCity, setSelectedCity] = useState<[number, number]>(cityPositions["Stockholm"]);
 
   useEffect(() => {
     setMounted(true);
@@ -116,9 +132,9 @@ const MapView = () => {
     // Setup WebSocket
     const socket = io("http://localhost:5001");
 
-    socket.on("bike_position_update", (update: { bike_id: number, latitude: number, longitude: number }) => {
-      setScooters(prev =>
-        prev.map(s =>
+    socket.on("bike_position_update", (update: { bike_id: number; latitude: number; longitude: number }) => {
+      setScooters((prev) =>
+        prev.map((s) =>
           s.id === update.bike_id
             ? { ...s, current_latitude: update.latitude, current_longitude: update.longitude }
             : s
@@ -136,7 +152,29 @@ const MapView = () => {
 
   return (
     <div className="map-wrapper">
-      <MapContainer center={[59.3293, 18.0686]} zoom={13} className="leaflet-container">
+      {/* City selector */}
+      <div className="map-controls" style={{ padding: "10px" }}>
+        <label htmlFor="city-select">Select City: </label>
+        <select
+          id="city-select"
+          value={Object.keys(cityPositions).find(
+            (key) =>
+              cityPositions[key][0] === selectedCity[0] &&
+              cityPositions[key][1] === selectedCity[1]
+          )}
+          onChange={(e) => setSelectedCity(cityPositions[e.target.value])}
+        >
+          {Object.keys(cityPositions).map((city) => (
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Map */}
+      <MapContainer center={selectedCity} zoom={13} className="leaflet-container">
+        <ChangeMapView center={selectedCity} />
         <TileLayer
           attribution='&copy; OpenStreetMap contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -150,7 +188,8 @@ const MapView = () => {
             icon={chargingIcon}
           >
             <Popup>
-              <strong>Laddstation</strong><br />
+              <strong>Laddstation</strong>
+              <br />
               {station.name}
             </Popup>
           </Marker>
@@ -164,7 +203,8 @@ const MapView = () => {
             icon={parkingIcon}
           >
             <Popup>
-              <strong>Parkering</strong><br />
+              <strong>Parkering</strong>
+              <br />
               {zone.name}
             </Popup>
           </Marker>
@@ -178,8 +218,10 @@ const MapView = () => {
             icon={scooter.status === "in_use" ? scooterGreenIcon : scooterIcon}
           >
             <Popup>
-              <strong>Scooter</strong><br />
-              Serial: {scooter.serial_number}<br />
+              <strong>Scooter</strong>
+              <br />
+              Serial: {scooter.serial_number}
+              <br />
               Status: {scooter.status}
             </Popup>
           </Marker>

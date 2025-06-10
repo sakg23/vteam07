@@ -33,4 +33,4 @@ async function createRidesFor(count) {
 }
 
 // 🧪 Example usage
-createRidesFor(10); // (user_id, bike_id, number of rides)
+createRidesFor(1000);
