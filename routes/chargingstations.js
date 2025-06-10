@@ -3,7 +3,7 @@ const router = express.Router();
 const chargingStationsModules = require('../src/modules/chargingstation');
 const checkAuth = require("../middleware/check-auth.js"); // Middleware för att kontrollera autentisering
 
-router.get("/", checkAuth, async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const stations = await chargingStationsModules.getChargingStations();
         res.status(200).json({

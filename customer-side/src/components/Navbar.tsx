@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../modules/auth";
-import "../assets/css/navbar.css";
+import "../assets/css/index.css";
 
 function Navbar() {
   const location = useLocation();
@@ -9,7 +9,7 @@ function Navbar() {
 
   const handleLogout = () => {
     auth.logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -36,33 +36,46 @@ function Navbar() {
               "customer-navbar-link" +
               (location.pathname === "/history" ? " active" : "")
             }
-            to="/history"
+            to="/History"
           >
             History
           </Link>
         )}
 
+        {/* Map only when logged in */}
+        {isLoggedIn && (
+          <Link
+            className={
+              "customer-navbar-link" +
+              (location.pathname === "/map" ? " active" : "")
+            }
+            to="/Map"
+          >
+            Map
+          </Link>
+        )}
+
         {/* Register only when logged out */}
-        {!isLoggedIn && (
+        {!isLoggedIn && location.pathname !== "/register" && (
           <Link
             className={
               "customer-navbar-link" +
               (location.pathname === "/register" ? " active" : "")
             }
-            to="/register"
+            to="/Register"
           >
             Register
           </Link>
         )}
 
         {/* Login only when not logged in AND not already on /login */}
-        {!isLoggedIn && location.pathname !== "/login" && (
+        {!isLoggedIn && location.pathname !== "/" && (
           <Link
             className={
               "customer-navbar-link" +
-              (location.pathname === "/login" ? " active" : "")
+              (location.pathname === "/" ? " active" : "")
             }
-            to="/login"
+            to="/"
           >
             Login
           </Link>
@@ -73,12 +86,6 @@ function Navbar() {
           <button
             className="customer-navbar-link logout-link"
             onClick={handleLogout}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-            }}
           >
             Logout
           </button>

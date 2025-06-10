@@ -20,7 +20,7 @@ const Home = () => {
           </span>
         </div>
         <div style={{ textAlign: "center", marginTop: "1.1rem" }}>
-          <Link to="/login" className="add-balance-link">
+          <Link to="/" className="add-balance-link">
             Till inloggningen
           </Link>
         </div>

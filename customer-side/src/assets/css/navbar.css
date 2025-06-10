@@ -28,17 +28,26 @@
   border-radius: 0.7rem;
   transition: background 0.16s, color 0.16s;
 }
+
 .customer-navbar-link.active,
 .customer-navbar-link:hover {
   background: #e5f6ec;
   color: #45a473;
 }
+
 .logout-link {
   color: #e16b6b !important;
   font-weight: 600;
   margin-left: 0.7rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
-.logout-link:hover { background: #faeaea !important; }
+
+.logout-link:hover { 
+  background: #faeaea !important;
+}
 
 @media (max-width: 800px) {
   .customer-navbar-brand {
