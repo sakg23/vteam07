@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-// import './CustomerPage.css';
 
 interface Scooter {
   id: number;
@@ -27,7 +26,7 @@ const CustomerPage: React.FC = () => {
   const searchMarker = useRef<L.Marker | null>(null);
 
   useEffect(() => {
-    // Fetch user data from backend (mocked or via API if needed)
+    // Fetch user data if needed (replace with real API in the future)
     setUser({ displayName: 'Google User', role: 'customer' });
 
     // Initialize map
@@ -38,8 +37,8 @@ const CustomerPage: React.FC = () => {
       }).addTo(leafletMap.current);
     }
 
-    // Load scooters
-    axios.get('/api/scooters')
+    // Load scooters from backend
+    axios.get('http://localhost:5000/api/scooters', { withCredentials: true })
       .then(res => {
         setScooters(res.data);
         if (leafletMap.current) {
@@ -77,6 +76,24 @@ const CustomerPage: React.FC = () => {
       .catch(() => alert('Failed to search address.'));
   };
 
+  const rentScooter = async () => {
+    try {
+      await axios.post('http://localhost:5000/rent/2', {}, { withCredentials: true });
+      window.location.href = '/customer?message=success';
+    } catch {
+      alert('Failed to rent scooter.');
+    }
+  };
+
+  const returnScooter = async () => {
+    try {
+      await axios.post('http://localhost:5000/return/2', {}, { withCredentials: true });
+      window.location.href = 'http://localhost:5000/payment';
+    } catch {
+      alert('Failed to return scooter.');
+    }
+  };
+
   return (
     <div className="customer-page">
       <h1>Welcome, {user ? user.displayName : 'Guest'}</h1>
@@ -84,11 +101,13 @@ const CustomerPage: React.FC = () => {
       <nav>
         <a href="/customer">🏠 Dashboard</a> |
         {!user ? (
-          <a href="/auth/google">🔐 Login with Google</a>
+          <a href="http://localhost:5000/auth/google">🔐 Login with Google</a>
         ) : (
           <>
-            <a href="/logout">🚪 Logout</a>
-            {user.role === 'admin' && <span> | <a href="/admin/dashboard">🛡 Admin</a></span>}
+            <a href="http://localhost:5000/logout">🚪 Logout</a>
+            {user.role === 'admin' && (
+              <> | <a href="/admin/dashboard">🛡 Admin</a></>
+            )}
           </>
         )}
       </nav>
@@ -108,17 +127,13 @@ const CustomerPage: React.FC = () => {
 
       <div id="map" ref={mapRef} style={{ height: '500px', width: '100%' }}></div>
 
-      <form action="/rent/2" method="POST">
-        <button type="submit">🚲 Rent Scooter 2</button>
-      </form>
-
-      <form action="/return/2" method="POST">
-        <button type="submit">🔙 Return Scooter 2</button>
-      </form>
-
-      <a href="/payment">
-        <button>💳 Go to Payment</button>
-      </a>
+      <div style={{ marginTop: '1rem' }}>
+        <button onClick={rentScooter}>🚲 Rent Scooter 2</button>
+        <button onClick={returnScooter} style={{ marginLeft: '1rem' }}>🔙 Return Scooter 2</button>
+        <a href="http://localhost:5000/payment">
+          <button style={{ marginLeft: '1rem' }}>💳 Go to Payment</button>
+        </a>
+      </div>
     </div>
   );
 };

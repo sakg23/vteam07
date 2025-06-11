@@ -6,6 +6,7 @@ import PaymentPage from './pages/PaymentPage';
 import ReturnPage from './pages/ReturnPage';
 import RentPage from './pages/RentPage';
 
+
 const App: React.FC = () => {
   return (
     <Router>

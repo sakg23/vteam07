@@ -1,13 +1,24 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ReturnPage: React.FC = () => {
   const { scooterId } = useParams<{ scooterId: string }>();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    form.submit();
+  const handleReturn = async () => {
+    try {
+      await axios.post(
+        `http://localhost:5000/return/${scooterId}`,
+        {},
+        { withCredentials: true }
+      );
+      // Go to payment page on success
+      navigate('/payment');
+    } catch (err) {
+      console.error(err);
+      alert('❌ Failed to return scooter.');
+    }
   };
 
   return (
@@ -15,11 +26,12 @@ const ReturnPage: React.FC = () => {
       <h1>Return Scooter</h1>
       <p>Returning scooter ID: <strong>{scooterId}</strong></p>
 
-      <form method="POST" action={`/return/${scooterId}`} onSubmit={handleSubmit}>
-        <button type="submit" style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}>
-          Confirm Return
-        </button>
-      </form>
+      <button
+        onClick={handleReturn}
+        style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
+      >
+        Confirm Return
+      </button>
     </div>
   );
 };
