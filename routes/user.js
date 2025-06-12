@@ -107,7 +107,7 @@ router.delete("/:id", async (req, res) => {
     const id = req.params.id;
 
     try {
-        const existing = await userModules.getUserByid(id);
+        const existing = await userModules.getUserById(id);
         if (!existing || existing.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }

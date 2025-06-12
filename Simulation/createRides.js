@@ -6,7 +6,6 @@ function getRandomCoord(base, range = 0.01) {
   return parseFloat((base + (Math.random() - 0.5) * range).toFixed(6));
 }
 
-// Create N rides for a specific user and bike
 async function createRidesFor(count) {
   for (let i = 1; i <= count; i++) {
     const start_latitude = getRandomCoord(59.3293);
@@ -32,5 +31,5 @@ async function createRidesFor(count) {
   }
 }
 
-// 🧪 Example usage
-createRidesFor(1000);
+
+module.exports = { createRidesFor };

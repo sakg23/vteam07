@@ -7,7 +7,6 @@ import History from "./pages/History";
 import AddBalance from "./pages/AddBalance";
 import Register from "./pages/Register";
 import RequireAuth from "./components/RequireAuth";
-import MapView from "./pages/MapView";
 
 
 
@@ -21,7 +20,6 @@ function App() {
         <Route path="/Dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
         <Route path="/History" element={<RequireAuth><History /></RequireAuth>} />
         <Route path="/add-balance" element={<RequireAuth><AddBalance /></RequireAuth>} />
-        <Route path="/map" element={<RequireAuth><MapView /></RequireAuth>} />
       </Routes>
       <Footer />
     </BrowserRouter>

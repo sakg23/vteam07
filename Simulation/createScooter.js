@@ -2,7 +2,6 @@ const axios = require("axios");
 
 const API_URL = "http://localhost:5000/v1/bikes/add";
 
-// Adjust these to match your DB city IDs!
 const cityIds = {
   "Karlskrona": 1,
   "Göteborg": 2,
@@ -15,7 +14,6 @@ const cityPositions = {
   "Stockholm": { lat: 59.3293, long: 18.0686 },
 };
 
-// Helper to generate random float
 function getRandomCoord(base, range = 0.005) {
   return parseFloat((base + (Math.random() - 0.5) * (range / 3)).toFixed(6));
 }
@@ -56,10 +54,10 @@ async function createScooters(count) {
     }
   };
 
-  // Add 1/3 per city
   await addScootersForCity("Karlskrona", perCity);
   await addScootersForCity("Göteborg", perCity);
-  await addScootersForCity("Stockholm", count - perCity * 2); // remaining in Stockholm
+  await addScootersForCity("Stockholm", count - perCity * 2);
 }
 
-createScooters(1000);
+
+module.exports = { createScooters };

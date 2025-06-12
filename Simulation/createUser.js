@@ -2,9 +2,8 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 
 const API_URL = "http://localhost:5000/v1/user/add";
-const ROLE = "customer"; // or 'admin'
+const ROLE = "customer";
 
-// Fake user generator
 function generateUser(index) {
   const email = `user${index}@example.com`;
   const password = `password${index}`;
@@ -39,4 +38,6 @@ async function createUsers(count) {
   }
 }
 
-createUsers(1000);
+
+module.exports = { createUsers };
+

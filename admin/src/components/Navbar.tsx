@@ -9,7 +9,7 @@ function Navbar() {
 
   const handleLogout = () => {
     auth.logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -98,6 +98,16 @@ function Navbar() {
             <Link
               className={
                 "admin-navbar-link" +
+                (location.pathname === "/mapView" ? " active" : "")
+              }
+              to="/mapView"
+            >
+              Map
+            </Link>
+
+            <Link
+              className={
+                "admin-navbar-link" +
                 (location.pathname === "/about" ? " active" : "")
               }
               to="/about"
@@ -114,6 +124,8 @@ function Navbar() {
             >
               Contact
             </Link>
+
+            
 
             {/* Logout */}
             <button

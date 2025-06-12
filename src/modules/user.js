@@ -5,7 +5,7 @@ async function addUser(email, password_hash, name, phone, role) {
     const db = await connectToDatabase();
     try {
         const [result] = await db.query(
-            'CALL insert_user(?, ?, ?, ?, ?)',
+            'INSERT INTO users (email, password_hash, name, phone, role) VALUES (?, ?, ?, ?, ?)',
             [email, password_hash, name, phone, role]
         );
         return result;
@@ -23,6 +23,7 @@ async function getUsers() {
     await db.end();
     return rows;
 }
+    
 
 // Hämta användare via id
 async function getUserById(id) {

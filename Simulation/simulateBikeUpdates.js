@@ -13,22 +13,20 @@ const cityPositions = {
   "Stockholm": { lat: 59.3293, long: 18.0686 },
 };
 
-// Function to create N scooters dynamically
 function createScooters(count) {
   scooters = [];
 
   const perCity = Math.floor(count / 3);
   let scooterId = 1;
 
-  // Helper to add scooters for a given city
   const addScootersForCity = (cityName, number) => {
     const base = cityPositions[cityName];
     for (let i = 0; i < number; i++) {
       scooters.push({
         id: scooterId++,
-        lat: base.lat + (Math.random() * 0.005) / 3, // divide by 3 as requested
+        lat: base.lat + (Math.random() * 0.005) / 3,
         long: base.long + (Math.random() * 0.005) / 3,
-        dx: ((Math.random() - 0.5) * 0.0001) / 3, // also divide by 3 for smoother movement
+        dx: ((Math.random() - 0.5) * 0.0001) / 3,
         dy: ((Math.random() - 0.5) * 0.0001) / 3,
       });
     }
@@ -36,14 +34,13 @@ function createScooters(count) {
 
   addScootersForCity("Karlskrona", perCity);
   addScootersForCity("Göteborg", perCity);
-  addScootersForCity("Stockholm", count - perCity * 2); // remaining scooters in Stockholm
+  addScootersForCity("Stockholm", count - perCity * 2);
 
   console.log(
     `Created ${scooters.length} scooters: ${perCity} in Karlskrona, ${perCity} in Göteborg, ${count - perCity * 2} in Stockholm`
   );
 }
 
-// Function to start simulation
 function startSimulation(count) {
   createScooters(count);
 
@@ -52,7 +49,6 @@ function startSimulation(count) {
       const newLat = parseFloat((scooter.lat + scooter.dx).toFixed(6));
       const newLong = parseFloat((scooter.long + scooter.dy).toFixed(6));
 
-      // Emit new absolute position
       io.emit("bike_position_update", {
         bike_id: scooter.id,
         latitude: newLat,
@@ -70,5 +66,5 @@ function startSimulation(count) {
   }, 3000);
 }
 
-// Example usage:
-startSimulation(1000);
+
+module.exports = { startSimulation };

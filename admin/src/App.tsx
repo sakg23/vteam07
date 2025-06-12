@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Customers from "./pages/Customers";
 import Cities from "./pages/Cities";
 import AddCityForm from "./pages/AddCityForm";
+import MapView from "./pages/mapView";
 import AddParking from "./components/AddParking";
 import ParkingZones from "./pages/ParkingZones";
 import ChargingStations from "./pages/ChargingStations";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/addparking" element={<AddParking />} />
         <Route path="/chargingstations" element={<ChargingStations />} />
         <Route path="/addstation" element={<AddChargingStation />} />
+        <Route path="/mapView" element={<MapView />} />
         <Route path="/user-travels/:userId" element={<UserTravelsPage />} />
       </Routes>
     </BrowserRouter>

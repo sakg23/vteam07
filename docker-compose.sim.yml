@@ -1,0 +1,13 @@
+networks:
+  vteam:
+
+
+services:
+  simulator:
+    image: simulation
+    container_name: simulator
+    networks:
+      - vteam
+    environment:
+      SERVER_HOST: servertest2
+      DB_HOST: mariadb

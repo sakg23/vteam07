@@ -1,0 +1,62 @@
+networks:
+  vteam:
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: elsparkcyklar
+      MYSQL_USER: dbadm
+      MYSQL_PASSWORD: P@ssw0rd
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+      - ./config/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      vteam:
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  server:
+    image: luda22/vteam07:1.0.0
+    container_name: "servertest2"
+    ports:
+      - "5000:5000"
+    env_file: 
+    - .env
+    environment:
+      DB_HOST: mariadb
+      DB_USER: dbadm
+      DB_PASSWORD: P@ssw0rd
+      DB_NAME: elsparkcyklar
+    depends_on:
+      - mariadb
+    networks:
+      vteam:
+
+  usersida:
+    image: luda22/customer:1.0.0
+    container_name: "usersida"
+    ports:
+      - "3005:3005"
+    networks:
+      vteam:
+    links:
+    - "server:servertest2"
+
+  adminsida:
+    image: luda22/admin:1.0.0
+    container_name: "adminsida"
+    ports:
+      - "3001:3001"
+    networks:
+      vteam:
+    links:
+    - "server:servertest2"

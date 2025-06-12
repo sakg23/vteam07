@@ -16,7 +16,6 @@ function Navbar() {
     <nav className="customer-navbar">
       <div className="customer-navbar-brand">Vteam07</div>
       <div className="customer-navbar-links">
-        {/* Home only when logged in */}
         {isLoggedIn && (
           <Link
             className={
@@ -29,7 +28,6 @@ function Navbar() {
           </Link>
         )}
 
-        {/* History only when logged in */}
         {isLoggedIn && (
           <Link
             className={
@@ -42,20 +40,6 @@ function Navbar() {
           </Link>
         )}
 
-        {/* Map only when logged in */}
-        {isLoggedIn && (
-          <Link
-            className={
-              "customer-navbar-link" +
-              (location.pathname === "/map" ? " active" : "")
-            }
-            to="/Map"
-          >
-            Map
-          </Link>
-        )}
-
-        {/* Register only when logged out */}
         {!isLoggedIn && location.pathname !== "/register" && (
           <Link
             className={
@@ -68,7 +52,6 @@ function Navbar() {
           </Link>
         )}
 
-        {/* Login only when not logged in AND not already on /login */}
         {!isLoggedIn && location.pathname !== "/" && (
           <Link
             className={
@@ -81,7 +64,6 @@ function Navbar() {
           </Link>
         )}
 
-        {/* Logout only when logged in */}
         {isLoggedIn && (
           <button
             className="customer-navbar-link logout-link"
