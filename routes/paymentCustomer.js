@@ -4,7 +4,7 @@ const db = require('../src/db/connection');
 
 // Show payment page to customer
 router.get('/', (req, res) => {
-    res.render('database/paymentCustomer', { amount: 50 }); // or fetch actual amount if needed
+    res.render('/database/paymentCustomer', { amount: 50 }); // or fetch actual amount if needed
 });
 
 // Handle payment confirmation
@@ -21,3 +21,4 @@ router.post('/confirm', async (req, res) => {
 });
 
 module.exports = router;
+

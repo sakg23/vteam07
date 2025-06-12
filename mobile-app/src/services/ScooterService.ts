@@ -15,6 +15,14 @@ export const getAllScooters = async () => {
   return res.data.scooters;
 };
 
+export const getRentedScooter = async () => {
+  const res = await axios.get("http://localhost:5000/rent/rented", {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+
 export const addScooter = async (scooter: Scooter) => {
   const res = await axios.post(`${API_BASE}/add`, scooter);
   return res.data;
