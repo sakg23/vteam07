@@ -26,10 +26,8 @@ const CustomerPage: React.FC = () => {
   const searchMarker = useRef<L.Marker | null>(null);
 
   useEffect(() => {
-    // Fetch user data if needed (replace with real API in the future)
     setUser({ displayName: 'Google User', role: 'customer' });
 
-    // Initialize map
     if (mapRef.current && !leafletMap.current) {
       leafletMap.current = L.map(mapRef.current).setView([57.7072, 11.9668], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -37,7 +35,6 @@ const CustomerPage: React.FC = () => {
       }).addTo(leafletMap.current);
     }
 
-    // Load scooters from backend
     axios.get('http://localhost:5000/api/scooters', { withCredentials: true })
       .then(res => {
         setScooters(res.data);

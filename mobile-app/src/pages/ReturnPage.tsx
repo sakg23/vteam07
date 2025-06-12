@@ -13,11 +13,10 @@ const ReturnPage: React.FC = () => {
         {},
         { withCredentials: true }
       );
-      // Go to payment page on success
       navigate('/payment');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to return scooter.');
+      alert(' Failed to return scooter.');
     }
   };
 

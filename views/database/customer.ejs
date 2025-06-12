@@ -1,11 +1,11 @@
 <h1>Welcome, <%= user ? user.displayName : 'Guest' %></h1>
 
 <nav style="margin-bottom: 20px;">
-    <a href="/customer">🏠 Dashboard</a> |
+    <a href="/customer"> Dashboard</a> |
     <% if (!user) { %>
-        <a href="/auth/google">🔐 Login with Google</a>
+        <a href="/auth/google"> Login with Google</a>
     <% } else { %>
-        <a href="/logout">🚪 Logout</a>
+        <a href="/logout"> Logout</a>
         <% if (user.role === 'admin') { %>
             | <a href="/admin/dashboard">🛡 Admin</a>
         <% } %>
@@ -14,10 +14,10 @@
 
 <!-- Messages -->
 <% if (query && query.message === 'success') { %>
-    <div style="color: green;">✅ You successfully rented the scooter!</div>
+    <div style="color: green;"> You successfully rented the scooter!</div>
 <% } %>
 <% if (query && query.message === 'payment_success') { %>
-    <div style="color: green;">✅ Your payment was successful!</div>
+    <div style="color: green;"> Your payment was successful!</div>
 <% } %>
 
 <!-- Address search form -->
@@ -31,15 +31,15 @@
 
 <!-- Action buttons -->
 <form action="/rent/2" method="POST" style="margin-bottom: 10px;">
-    <button type="submit">🚲 Rent Scooter 2</button>
+    <button type="submit"> Rent Scooter 2</button>
 </form>
 
 <form action="/return/2" method="POST" style="margin-bottom: 10px;">
-    <button type="submit">🔙 Return Scooter 2</button>
+    <button type="submit"> Return Scooter 2</button>
 </form>
 
 <a href="/payment">
-    <button style="margin-bottom: 20px;">💳 Go to Payment</button>
+    <button style="margin-bottom: 20px;"> Go to Payment</button>
 </a>
 
 <!-- Leaflet CSS + JS -->

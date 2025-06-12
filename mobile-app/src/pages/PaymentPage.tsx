@@ -9,7 +9,7 @@ const PaymentPage: React.FC = () => {
   useEffect(() => {
   axios.get('http://localhost:5000/api/payment', { withCredentials: true })
     .then(res => setAmount(res.data.amount))
-    .catch(() => alert('❌ Failed to load payment info.'));
+    .catch(() => alert(' Failed to load payment info.'));
 }, []);
 
 const handlePayment = async () => {
@@ -18,7 +18,7 @@ const handlePayment = async () => {
     navigate('/customer?message=payment_success');
   } catch (err) {
     console.error(err);
-    alert('❌ Failed to confirm payment.');
+    alert(' Failed to confirm payment.');
   }
 };
 
