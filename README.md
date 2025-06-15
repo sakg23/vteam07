@@ -1,10 +1,10 @@
-# 🛴 Svenska Elsparkcyklar AB – Systemuppsättning
+# Svenska Elsparkcyklar AB – Systemuppsättning
 
 Detta projekt innehåller ett fullständigt uthyrningssystem för elsparkcyklar i svenska städer. Här beskrivs hur du kommer igång med systemet lokalt.
 
 ---
 
-## 🚀 1. Klona repot
+## 1. Klona repot
 
 Börja med att klona projektet:
 
